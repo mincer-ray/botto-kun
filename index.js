@@ -39,7 +39,7 @@ client.on("message", async message => {
   // message is for botto-kun and not from enemy bot
   // remove nasties from nice words
   console.log('RAW MESSAGE: ', message.content);
-  const cleanMessage = normalMessage.replace(/[^a-zA-Z0-9 ]/g, '').slice(GLOBAL_PREFIX.length);
+  const cleanMessage = normalMessage.replace(/[^a-z0-9 ]/g, '').slice(GLOBAL_PREFIX.length);
   console.log('CLEAN MESSAGE: ', cleanMessage);
   
   // split input text into arguments and capture the first as potential command
