@@ -1,7 +1,10 @@
 const { createLogger, format, transports } = require('winston');
-const { combine, timestamp, label, printf } = format;
 
-const prettyFormat = printf(({ level, message, timestamp, stackTrace }) => {
+const { combine, printf } = format;
+
+const prettyFormat = printf(({
+  level, message, timestamp, stackTrace,
+}) => {
   const baseLog = `${timestamp} ${level}: ${message.trim()}`;
 
   if (stackTrace) {
@@ -17,7 +20,7 @@ const logger = createLogger({
     format.colorize(),
     format.timestamp(),
     format.align(),
-    prettyFormat
+    prettyFormat,
   ),
   defaultMeta: { service: 'user-service' },
   transports: [new transports.Console()],
