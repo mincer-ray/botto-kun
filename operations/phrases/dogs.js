@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const dogPhrases = async (args, message) => {
   const supportedDogs = [
-    'dachsund', 'cat', 'pug', 'samoyed', 'schipperke', 'shiba', 'whippet',
+    'dachsund', 'pug', 'samoyed', 'schipperke', 'shiba', 'whippet',
   ];
 
   let dogFound = null;
