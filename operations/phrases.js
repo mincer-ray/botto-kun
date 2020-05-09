@@ -1,6 +1,8 @@
 const moment = require('moment-timezone');
 const axios = require('axios');
 
+const { happyThought, sadThought } = require('../brain/thoughts');
+
 module.exports = doPhrase = async (args, message) => {
   console.log(`DO PHRASE: ARGS: ${JSON.stringify(args)}`);
 
@@ -23,7 +25,12 @@ module.exports = doPhrase = async (args, message) => {
   }
 
   if (args.includes('good')) {
-    message.channel.send('mmm botto-kun is pleased to serve. botto-kun lives to be praised by the masters');
+    message.channel.send(happyThought());
+    return true;
+  }
+
+  if (args.includes('bad')) {
+    message.channel.send(sadThought());
     return true;
   }
 

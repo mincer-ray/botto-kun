@@ -7,6 +7,9 @@ const commands = require('./config/commands.json');
 const doCommand = require('./operations/commands');
 const doPhrase = require('./operations/phrases');
 
+// thoughts
+const { neutralThought } = require('./brain/thoughts');
+
 const client = new Discord.Client();
 const GLOBAL_PREFIX = 'botto-kun';
 let APP_TOKEN = null;
@@ -57,7 +60,7 @@ client.on("message", async message => {
 
   // nothing resolved so we error poorly
   if (!actionComplete) {
-    message.channel.send('uwu botto-kun requires orders');
+    message.channel.send(neutralThought());
   }
 });
 
