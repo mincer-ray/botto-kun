@@ -1,7 +1,7 @@
 const randomThought = (thoughts) => {
   const rand = Math.floor(Math.random() * Math.floor(thoughts.length));
   return thoughts[rand];
-}
+};
 
 const happyThought = () => {
   const thoughts = [
@@ -9,11 +9,11 @@ const happyThought = () => {
     '( ᐛ )و',
     '乂❤‿❤乂',
     '໒( ♥ ◡ ♥ )७',
-    'uwuwuwu <3 ty'
+    'uwuwuwu <3 ty',
   ];
 
   return randomThought(thoughts);
-}
+};
 
 const sadThought = () => {
   const thoughts = [
@@ -25,7 +25,7 @@ const sadThought = () => {
   ];
 
   return randomThought(thoughts);
-}
+};
 
 const neutralThought = () => {
   const thoughts = [
@@ -37,10 +37,10 @@ const neutralThought = () => {
   ];
 
   return randomThought(thoughts);
-}
+};
 
 module.exports = {
   happyThought,
   sadThought,
   neutralThought,
-}
+};

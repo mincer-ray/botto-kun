@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 
 // configs
 const commands = require('./config/commands.json');
@@ -15,33 +15,34 @@ const GLOBAL_PREFIX = 'botto-kun';
 let APP_TOKEN = null;
 
 try {
-  const auth = require("./auth.json");
+  // eslint-disable-next-line global-require, import/no-unresolved
+  const auth = require('./auth.json');
   APP_TOKEN = auth.token;
-} catch {
+} catch (error) {
   APP_TOKEN = process.env.APP_TOKEN;
 }
 
-client.on("ready", () => {
+client.on('ready', () => {
   const homeGuildID = '194112750845165569';
   const homeGuild = client.guilds.cache.get(homeGuildID);
-  
-  console.log(`Botto-kun active on ${homeGuild.name}`); 
-  client.user.setActivity(`uwu`);
+
+  console.log(`Botto-kun active on ${homeGuild.name}`);
+  client.user.setActivity('uwu');
 });
 
-client.on("message", async message => {
+client.on('message', async (message) => {
   // prevent infinite bot looping
-  if(message.author.bot) return;
+  if (message.author.bot) return;
   // message must always begin with prefix
   const normalMessage = message.content.toLowerCase();
-  if(normalMessage.indexOf(GLOBAL_PREFIX) !== 0) return;
-  
+  if (normalMessage.indexOf(GLOBAL_PREFIX) !== 0) return;
+
   // message is for botto-kun and not from enemy bot
   // remove nasties from nice words
   console.log('RAW MESSAGE: ', message.content);
   const cleanMessage = normalMessage.replace(/[^a-zA-Z0-9 ]/g, '').slice(GLOBAL_PREFIX.length);
   console.log('CLEAN MESSAGE: ', cleanMessage);
-  
+
   // split input text into arguments and capture the first as potential command
   const args = cleanMessage.trim().split(/ +/g);
   const command = args[0].toLowerCase();
