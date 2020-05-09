@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-module.exports = dogPhrases = async (args, message) => {
+const dogPhrases = async (args, message) => {
   const supportedDogs = [
     'dachsund', 'pug', 'schipperke', 'shiba', 'whippet'
   ];
@@ -19,4 +19,6 @@ module.exports = dogPhrases = async (args, message) => {
   }
 
   return false;
-}
+};
+
+module.exports = dogPhrases;
