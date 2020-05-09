@@ -39,10 +39,13 @@ client.on("message", async message => {
   const cleanMessage = normalMessage.replace(/[^a-zA-Z0-9 ]/g, '').slice(GLOBAL_PREFIX.length);
   console.log('CLEAN MESSAGE: ', cleanMessage);
   
+  // split input text into arguments and capture the first as potential command
   const args = cleanMessage.trim().split(/ +/g);
   const command = args[0].toLowerCase();
 
+  // test potential command against command list
   const isCommand = Object.keys(commands).includes(command);
+  // keep track of whether or not a response was sent
   let actionComplete = false;
 
   if (isCommand) {
@@ -52,6 +55,7 @@ client.on("message", async message => {
     actionComplete = await doPhrase(args, message);
   }
 
+  // nothing resolved so we error poorly
   if (!actionComplete) {
     message.channel.send('uwu botto-kun requires orders');
   }
