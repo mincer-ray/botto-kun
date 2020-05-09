@@ -1,4 +1,5 @@
 # botto-kun
+![Node.js CI](https://github.com/mincer-ray/botto-kun/workflows/Node.js%20CI/badge.svg)
 
 ## running locally
 1. ask me for the auth token i will give
@@ -21,3 +22,13 @@ a good example of this is `botto-kun` `say` `some text`
 phrases are any string that includes one or many keywords
 
 a good example of this is `botto-kun` `some` `steven` `text` `day`
+
+## logging
+in any file require `util/logger`
+
+logger syntax:
+```
+logger.info('message');
+logger.warn('message);
+logger.error('message');
+```
