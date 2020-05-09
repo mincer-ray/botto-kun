@@ -17,8 +17,8 @@ const dogPhrases = async (args, message) => {
       const dog = await axios.get(`https://dog.ceo/api/breed/${dogFound}/images/random`);
       message.channel.send(`${dogFound} acquired`, { files: [dog.data.message] });
       return true;
-    } catch(error) {
-      message.channel.send(`This dog can't be supplied currently! ${error.message}.`)
+    } catch (error) {
+      message.channel.send(`This dog can't be supplied currently! ${error.message}.`);
     }
   }
 
