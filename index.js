@@ -3,6 +3,9 @@ const Discord = require('discord.js');
 // configs
 const commands = require('./config/commands.json');
 
+// logger
+const logger = require('./util/logger');
+
 // operations
 const doCommand = require('./operations/commands');
 const doPhrase = require('./operations/phrases');
@@ -26,7 +29,7 @@ client.on('ready', () => {
   const homeGuildID = '194112750845165569';
   const homeGuild = client.guilds.cache.get(homeGuildID);
 
-  console.log(`Botto-kun active on ${homeGuild.name}`);
+  logger.info(`Botto-kun active on ${homeGuild.name}`);
   client.user.setActivity('uwu');
 });
 
@@ -39,9 +42,9 @@ client.on('message', async (message) => {
 
   // message is for botto-kun and not from enemy bot
   // remove nasties from nice words
-  console.log('RAW MESSAGE: ', message.content);
+  logger.info(`RAW MESSAGE: ${message.content}`);
   const cleanMessage = normalMessage.replace(/[^a-z0-9 ]/g, '').slice(GLOBAL_PREFIX.length);
-  console.log('CLEAN MESSAGE: ', cleanMessage);
+  logger.info(`CLEAN MESSAGE: ${cleanMessage}`);
 
   // split input text into arguments and capture the first as potential command
   const args = cleanMessage.trim().split(/ +/g);
