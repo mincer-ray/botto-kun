@@ -1,8 +1,7 @@
 const moment = require('moment-timezone');
-const axios = require('axios');
-const logger = require('../util/logger');
-
-const { happyThought, sadThought } = require('../brain/thoughts');
+const logger = require('../../util/logger');
+const { happyThought, sadThought } = require('../../brain/thoughts');
+const dogPhrases = require('./dogs');
 
 const doPhrase = async (args, message) => {
   logger.info(`DO PHRASE: ARGS: ${JSON.stringify(args)}`);
@@ -39,9 +38,8 @@ const doPhrase = async (args, message) => {
     return true;
   }
 
-  if (args.includes('pug')) {
-    const pug = await axios.get('https://dog.ceo/api/breed/pug/images/random');
-    message.channel.send('pug acquired', { files: [pug.data.message] });
+  const dog = await dogPhrases(args, message);
+  if (dog) {
     return true;
   }
 
