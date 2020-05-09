@@ -17,6 +17,7 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
     "moment": "^2.25.3",
-    "moment-timezone": "^0.5.28"
+    "moment-timezone": "^0.5.28",
+    "winston": "^3.2.1"
   }
 }
