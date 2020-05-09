@@ -1,5 +1,7 @@
+const logger = require('../util/logger');
+
 const doCommand = async (command, args, message) => {
-  console.log(`DO COMMAND: ${command} | ARGS: ${JSON.stringify(args)}`);
+  logger.info(`DO COMMAND: ${command} | ARGS: ${JSON.stringify(args)}`);
 
   if (command === 'ping') {
     const pingInit = await message.channel.send('Ping?');

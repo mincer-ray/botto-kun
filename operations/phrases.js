@@ -1,10 +1,11 @@
 const moment = require('moment-timezone');
 const axios = require('axios');
+const logger = require('../util/logger');
 
 const { happyThought, sadThought } = require('../brain/thoughts');
 
 const doPhrase = async (args, message) => {
-  console.log(`DO PHRASE: ARGS: ${JSON.stringify(args)}`);
+  logger.info(`DO PHRASE: ARGS: ${JSON.stringify(args)}`);
 
   if ((args.includes('steven') || args.includes('steve')) && args.includes('day')) {
     const steven0Day = 129;
