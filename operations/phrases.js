@@ -22,6 +22,11 @@ module.exports = doPhrase = async (args, message) => {
     return true;
   }
 
+  if (args.includes('good')) {
+    message.channel.send('mmm botto-kun is pleased to serve. botto-kun lives to be praised by the masters');
+    return true;
+  }
+
   if (args.includes('pug')) {
     const pug = await axios.get('https://dog.ceo/api/breed/pug/images/random');
     message.channel.send('pug acquired', { files: [ pug.data.message ] });
