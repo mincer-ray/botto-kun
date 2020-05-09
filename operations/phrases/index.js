@@ -39,7 +39,7 @@ const doPhrase = async (args, message) => {
 
   const dog = await dogPhrases(args, message);
   if (dog) {
-    return true
+    return true;
   }
 
   return false;

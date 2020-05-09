@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const dogPhrases = async (args, message) => {
   const supportedDogs = [
-    'dachsund', 'pug', 'schipperke', 'shiba', 'whippet'
+    'dachsund', 'cat', 'pug', 'samoyed', 'schipperke', 'shiba', 'whippet',
   ];
 
   let dogFound = null;
@@ -13,9 +13,13 @@ const dogPhrases = async (args, message) => {
   });
 
   if (dogFound) {
-    const dog = await axios.get(`https://dog.ceo/api/breed/${dogFound}/images/random`);
-    message.channel.send(`${dogFound} acquired`, { files: [ dog.data.message ] });
-    return true;
+    try {
+      const dog = await axios.get(`https://dog.ceo/api/breed/${dogFound}/images/random`);
+      message.channel.send(`${dogFound} acquired`, { files: [dog.data.message] });
+      return true;
+    } catch(error) {
+      message.channel.send(`This dog can't be supplied currently! ${error.message}.`)
+    }
   }
 
   return false;
