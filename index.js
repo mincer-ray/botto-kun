@@ -15,7 +15,8 @@ const GLOBAL_PREFIX = 'botto-kun';
 let APP_TOKEN = null;
 
 try {
-  const auth = require('./auth.json'); // eslint-disable-line global-require
+  // eslint-disable-next-line global-require, import/no-unresolved
+  const auth = require('./auth.json');
   APP_TOKEN = auth.token;
 } catch (error) {
   APP_TOKEN = process.env.APP_TOKEN;
