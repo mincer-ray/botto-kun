@@ -19,6 +19,7 @@ const bannedWords = [
   'in',
   'im',
   'on',
+  'up',
 ];
 
 const respondEmotionally = (text) => {
