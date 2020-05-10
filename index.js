@@ -39,7 +39,7 @@ client.on('message', async (message) => {
   // message must always begin with prefix
   const normalMessage = message.content.toLowerCase();
   // chance to go rogue is 5%
-  const behave = Math.floor(Math.random() * Math.floor(100)) > 5;
+  const behave = Math.floor(Math.random() * Math.floor(100)) > 10;
   if (!behave) { logger.warn('Botto-kun misbehaving'); }
   if (normalMessage.indexOf(GLOBAL_PREFIX) !== 0 && behave) return;
 
