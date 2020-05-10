@@ -51,7 +51,7 @@ const respondEmotionally = (text) => {
 
   if (emotionals.length) {
     const rand = Math.floor(Math.random() * Math.floor(emotionals.length));
-    return `${emotionals[rand].entry} :: ${emotionals[rand].name}`;
+    return `${emotionals[rand].entry}`;
   }
 
   if (Object.values(verboseSet).length) {
@@ -65,10 +65,10 @@ const respondEmotionally = (text) => {
     if (behaviors.length) { selection = behaviors; }
 
     const rand = Math.floor(Math.random() * Math.floor(alternate.length));
-    return `${alternate[rand].entry} :: ${alternate[rand].name}`;
+    return `${alternate[rand].entry}`;
   }
 
-  return `${sentimentalThought(result.score)} :: ${result.score}`;
+  return `${sentimentalThought(result.score)}`;
 };
 
 module.exports = respondEmotionally;
