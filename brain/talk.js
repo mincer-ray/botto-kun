@@ -38,15 +38,12 @@ const respondEmotionally = (action) => {
 
   if (search.topMatch > 0) {
     const matches = search[search.topMatch];
-    console.log(matches);
     const rand = Math.floor(Math.random() * Math.floor(matches.length));
     const key = matches[rand];
     return `${asciilib.lib[key].entry}`;
   }
 
-  const filter = (word) => {
-    return _.filter(asciilib.lib, (o) => o.keywords.includes(word));
-  };
+  const filter = (word) => { _.filter(asciilib.lib, (o) => o.keywords.includes(word)); };
 
   const verboseSet = {};
   const allWords = _.difference(_.uniq(text.split(' ')), bannedWords);
