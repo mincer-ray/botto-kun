@@ -10,8 +10,8 @@ const logger = require('./util/logger');
 const doCommand = require('./operations/commands');
 const doPhrase = require('./operations/phrases');
 
-// thoughts
-const { neutralThought } = require('./brain/thoughts');
+// brain stuff
+const respondEmotionally = require('./brain/talk');
 
 const client = new Discord.Client();
 const GLOBAL_PREFIX = 'botto-kun';
@@ -38,7 +38,10 @@ client.on('message', async (message) => {
   if (message.author.bot) return;
   // message must always begin with prefix
   const normalMessage = message.content.toLowerCase();
-  if (normalMessage.indexOf(GLOBAL_PREFIX) !== 0) return;
+  // chance to go rogue is 5%
+  const behave = Math.floor(Math.random() * Math.floor(100)) > 5;
+  if (!behave) { logger.warn('Botto-kun misbehaving'); }
+  if (normalMessage.indexOf(GLOBAL_PREFIX) !== 0 && behave) return;
 
   // message is for botto-kun and not from enemy bot
   // remove nasties from nice words
@@ -64,7 +67,7 @@ client.on('message', async (message) => {
 
   // nothing resolved so we error poorly
   if (!actionComplete) {
-    message.channel.send(neutralThought());
+    message.channel.send(respondEmotionally(cleanMessage));
   }
 });
 

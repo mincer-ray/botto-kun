@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "inspect": "node --inspect index.js",
     "lint": "npx eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +19,7 @@
     "eslint-plugin-import": "^2.20.1",
     "moment": "^2.25.3",
     "moment-timezone": "^0.5.28",
+    "sentiment": "^5.0.2",
     "winston": "^3.2.1"
   }
 }
