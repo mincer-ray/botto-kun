@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "inspect": "node --inspect index.js",
+    "dev": "nodemon --inspect index.js",
     "lint": "npx eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +21,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.25.3",
     "moment-timezone": "^0.5.28",
+    "nodemon": "^2.0.3",
     "sentiment": "^5.0.2",
     "winston": "^3.2.1"
   }

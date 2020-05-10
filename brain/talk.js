@@ -22,8 +22,28 @@ const bannedWords = [
   'up',
 ];
 
-const respondEmotionally = (text) => {
+const respondEmotionally = (action) => {
+  const text = action.cleanMessage;
   const result = sentiment.analyze(text);
+
+  const useableKeywords = _.difference(action.keywords, bannedWords);
+  const search = { topMatch: 0 };
+
+  Object.keys(asciilib.lib).forEach((key) => {
+    const matchLevel = _.intersection(asciilib.lib[key].keywords, useableKeywords).length;
+    if (!search[matchLevel]) { search[matchLevel] = []; }
+    if (search.topMatch < matchLevel) { search.topMatch = matchLevel; }
+    search[matchLevel].push(key);
+  });
+
+  if (search.topMatch > 0) {
+    const matches = search[search.topMatch];
+    console.log(matches);
+    const rand = Math.floor(Math.random() * Math.floor(matches.length));
+    const key = matches[rand];
+    return `${asciilib.lib[key].entry}`;
+  }
+
   const filter = (word) => {
     return _.filter(asciilib.lib, (o) => o.keywords.includes(word));
   };
@@ -37,37 +57,6 @@ const respondEmotionally = (text) => {
       verboseSet[word] = emojiSet;
     }
   });
-
-  const better = _.map(verboseSet, (emojis, word) => {
-    const otherWords = _.filter(allWords, (w) => w !== word);
-
-    const filteredSet = _.filter(emojis, (emoji) => {
-      return _.intersection(emoji.keywords, otherWords).length;
-    });
-
-    return filteredSet;
-  });
-
-  const emotionals = _.uniq(_.flatten(better), (i) => i.name);
-
-  if (emotionals.length) {
-    const rand = Math.floor(Math.random() * Math.floor(emotionals.length));
-    return `${emotionals[rand].entry}`;
-  }
-
-  if (Object.values(verboseSet).length) {
-    const alternate = _.flatten(Object.values(verboseSet));
-    const behaviors = _.filter(alternate, i => i.category === 'behavior');
-    const emotions = _.filter(alternate, i => i.category === 'emotion');
-    let selection = null;
-
-    if (alternate.length) { selection = alternate; }
-    if (emotions.length) { selection = emotions; }
-    if (behaviors.length) { selection = behaviors; }
-
-    const rand = Math.floor(Math.random() * Math.floor(alternate.length));
-    return `${alternate[rand].entry}`;
-  }
 
   return `${sentimentalThought(result.score)}`;
 };
