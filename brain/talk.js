@@ -1,8 +1,5 @@
 const Sentiment = require('sentiment');
 const {
-  happyThought,
-  sadThought,
-  neutralThought,
   sentimentalThought,
 } = require('./thoughts');
 
