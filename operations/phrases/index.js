@@ -12,8 +12,8 @@ const doPhrase = async (args, message) => {
       0: 'Monday',
       1: 'Wednesday',
       2: 'Friday',
-      3: 'Saturday',
-      4: 'Saturday',
+      3: 'Saturday #1',
+      4: 'Saturday #2',
       5: 'Sunday',
     };
 
