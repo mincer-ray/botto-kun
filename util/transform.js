@@ -43,7 +43,7 @@ const transformMessage = (message) => {
 
 
   // split input text into arguments and capture the first as potential command
-  bkmf.args = cleanMessage.trim().split(/ +/g);
+  bkmf.args = bkmf.cleanMessage.trim().split(/ +/g);
   if (bkmf.isCommand) { bkmf.command = bkmf.args.shift(); }
   if (bkmf.isPhrase || !bkmf.behave) {
     bkmf.keywords = _.intersection(bkmf.allKeywords, bkmf.args);
