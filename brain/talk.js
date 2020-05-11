@@ -1,10 +1,8 @@
-const Sentiment = require('sentiment');
 const asciilib = require('asciilib');
 const _ = require('lodash');
 const { sentimentalThought } = require('./thoughts');
 const getBannedWords = require('./banned');
 
-const sentiment = new Sentiment();
 const bannedWords = getBannedWords();
 
 const respondEmotionally = (action) => {
@@ -25,10 +23,8 @@ const respondEmotionally = (action) => {
     return `${asciilib.lib[key].entry}`;
   }
 
-  // unable to find a keyword match in asciilib
-  const result = sentiment.analyze(action.cleanMessage);
-
-  return `${sentimentalThought(result.score)}`;
+  // fall back to sentiment analysis
+  return `${sentimentalThought(action)}`;
 };
 
 module.exports = respondEmotionally;

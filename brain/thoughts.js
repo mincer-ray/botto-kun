@@ -1,4 +1,7 @@
+const Sentiment = require('sentiment');
 const kaomoji = require('../config/jp.json');
+
+const sentiment = new Sentiment();
 
 const thoughtMatrix = {
   worst: ['Angry', 'Crazy', 'Dead', 'Evil', 'Giving Up'],
@@ -17,7 +20,9 @@ const emojiMatrix = (feel) => {
   return kaomojiObject.entries[randEmojiKey].emoticon;
 };
 
-const sentimentalThought = (score) => {
+const sentimentalThought = (action) => {
+  const { score } = sentiment.analyze(action.cleanMessage);
+
   if (score <= -2) {
     return emojiMatrix('worst');
   }
@@ -34,43 +39,9 @@ const sentimentalThought = (score) => {
   return emojiMatrix('neutral');
 };
 
-const randomThought = (thoughts) => {
-  const rand = Math.floor(Math.random() * Math.floor(thoughts.length));
-  return thoughts[rand];
-};
-
-const happyThought = () => {
-  const thoughts = [
-    '( ᐛ )و',
-    '乂❤‿❤乂',
-    '໒( ♥ ◡ ♥ )७',
-    'uwuwuwu <3 ty',
-  ];
-
-  return randomThought(thoughts);
-};
-
-const sadThought = () => {
-  const thoughts = [
-    'sniff T_T',
-    '‧º·(˚ ˃̣̣̥⌓˂̣̣̥ )‧º·˚',
-    'ಠ╭╮ಠ',
-    '(๑◕︵◕๑)',
-  ];
-
-  return randomThought(thoughts);
-};
-
-const neutralThought = () => {
-  const thoughts = [
-    '(・_・ヾ',
-    'Σ(￣ロ￣lll)',
-    'ε-(‘ﾍ´○)┓',
-    '(￣ω￣;)',
-  ];
-
-  return randomThought(thoughts);
-};
+const happyThought = () => sentimentalThought(1);
+const sadThought = () => sentimentalThought(-1);
+const neutralThought = () => sentimentalThought(0);
 
 module.exports = {
   happyThought,
