@@ -1,31 +1,13 @@
 const Sentiment = require('sentiment');
 const asciilib = require('asciilib');
 const _ = require('lodash');
-const {
-  sentimentalThought,
-} = require('./thoughts');
+const { sentimentalThought } = require('./thoughts');
+const getBannedWords = require('./banned');
 
 const sentiment = new Sentiment();
-
-const bannedWords = [
-  'a',
-  'i',
-  'it',
-  'all',
-  'for',
-  'the',
-  'me',
-  'of',
-  'in',
-  'im',
-  'on',
-  'up',
-];
+const bannedWords = getBannedWords();
 
 const respondEmotionally = (action) => {
-  const text = action.cleanMessage;
-  const result = sentiment.analyze(text);
-
   const useableKeywords = _.difference(action.keywords, bannedWords);
   const search = { topMatch: 0 };
 
@@ -43,17 +25,8 @@ const respondEmotionally = (action) => {
     return `${asciilib.lib[key].entry}`;
   }
 
-  const filter = (word) => { _.filter(asciilib.lib, (o) => o.keywords.includes(word)); };
-
-  const verboseSet = {};
-  const allWords = _.difference(_.uniq(text.split(' ')), bannedWords);
-
-  allWords.forEach((word) => {
-    const emojiSet = filter(word);
-    if (emojiSet.length) {
-      verboseSet[word] = emojiSet;
-    }
-  });
+  // unable to find a keyword match in asciilib
+  const result = sentiment.analyze(action.cleanMessage);
 
   return `${sentimentalThought(result.score)}`;
 };
