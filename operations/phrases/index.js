@@ -1,6 +1,5 @@
 const moment = require('moment-timezone');
 const logger = require('../../util/logger');
-const { happyThought, sadThought } = require('../../brain/thoughts');
 const dogPhrases = require('./dogs');
 
 const doPhrase = async (args, message) => {
@@ -26,16 +25,6 @@ const doPhrase = async (args, message) => {
 
   if (args.join('') === 'gatherthetroops' || args.join('') === 'assemblethetroops') {
     message.channel.send('@RAMER', { files: ['https://i.imgur.com/4eaWTeX.jpeg'] });
-  }
-
-  if (args.includes('good')) {
-    message.channel.send(happyThought());
-    return true;
-  }
-
-  if (args.includes('bad')) {
-    message.channel.send(sadThought());
-    return true;
   }
 
   const dog = await dogPhrases(args, message);

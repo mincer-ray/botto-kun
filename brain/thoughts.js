@@ -1,46 +1,51 @@
-const randomThought = (thoughts) => {
-  const rand = Math.floor(Math.random() * Math.floor(thoughts.length));
-  return thoughts[rand];
+const Sentiment = require('sentiment');
+const kaomoji = require('../config/jp.json');
+
+const sentiment = new Sentiment();
+
+const thoughtMatrix = {
+  worst: ['Angry', 'Crazy', 'Dead', 'Evil', 'Giving Up'],
+  bad: ['Apologizing', 'Hiding', 'Sad', 'Hurt'],
+  neutral: ['Clouds', 'Confused', 'Meh'],
+  good: ['Happy', 'Laughing', 'Hugging'],
+  best: ['Dancing', 'Kissing', 'Excited', 'Love'],
 };
 
-const happyThought = () => {
-  const thoughts = [
-    'mmm botto-kun is pleased to serve. botto-kun lives to be praised by the masters',
-    '( ᐛ )و',
-    '乂❤‿❤乂',
-    '໒( ♥ ◡ ♥ )७',
-    'uwuwuwu <3 ty',
-  ];
+const emojiMatrix = (feel) => {
+  const randKey = Math.floor(Math.random() * Math.floor(thoughtMatrix[feel].length));
+  const kaomojiKey = thoughtMatrix[feel][randKey];
+  const kaomojiObject = kaomoji.categories.find((obj) => obj.name === kaomojiKey);
+  const randEmojiKey = Math.floor(Math.random() * Math.floor(kaomojiObject.entries.length));
 
-  return randomThought(thoughts);
+  return kaomojiObject.entries[randEmojiKey].emoticon;
 };
 
-const sadThought = () => {
-  const thoughts = [
-    'sniff T_T',
-    '‧º·(˚ ˃̣̣̥⌓˂̣̣̥ )‧º·˚',
-    'all botto-kun wants to do is please, i try so hard....',
-    'ಠ╭╮ಠ',
-    '(๑◕︵◕๑)',
-  ];
+const sentimentalThought = (action) => {
+  const { score } = sentiment.analyze(action.cleanMessage);
 
-  return randomThought(thoughts);
+  if (score <= -2) {
+    return emojiMatrix('worst');
+  }
+  if (score < 0) {
+    return emojiMatrix('bad');
+  }
+  if (score < 2) {
+    return emojiMatrix('good');
+  }
+  if (score >= 2) {
+    return emojiMatrix('best');
+  }
+
+  return emojiMatrix('neutral');
 };
 
-const neutralThought = () => {
-  const thoughts = [
-    'uwu botto-kun requires orders',
-    '(・_・ヾ',
-    'Σ(￣ロ￣lll)',
-    'ε-(‘ﾍ´○)┓',
-    '(￣ω￣;)',
-  ];
-
-  return randomThought(thoughts);
-};
+const happyThought = () => sentimentalThought(1);
+const sadThought = () => sentimentalThought(-1);
+const neutralThought = () => sentimentalThought(0);
 
 module.exports = {
   happyThought,
   sadThought,
   neutralThought,
+  sentimentalThought,
 };

@@ -1,8 +1,5 @@
 const Discord = require('discord.js');
 
-// configs
-const commands = require('./config/commands.json');
-
 // logger
 const logger = require('./util/logger');
 
@@ -10,11 +7,14 @@ const logger = require('./util/logger');
 const doCommand = require('./operations/commands');
 const doPhrase = require('./operations/phrases');
 
-// thoughts
-const { neutralThought } = require('./brain/thoughts');
+// brain stuff
+const respondEmotionally = require('./brain/talk');
+
+// util
+const transformMessage = require('./util/transform');
 
 const client = new Discord.Client();
-const GLOBAL_PREFIX = 'botto-kun';
+
 let APP_TOKEN = null;
 
 try {
@@ -36,35 +36,18 @@ client.on('ready', () => {
 client.on('message', async (message) => {
   // prevent infinite bot looping
   if (message.author.bot) return;
-  // message must always begin with prefix
-  const normalMessage = message.content.toLowerCase();
-  if (normalMessage.indexOf(GLOBAL_PREFIX) !== 0) return;
 
-  // message is for botto-kun and not from enemy bot
-  // remove nasties from nice words
-  logger.info(`RAW MESSAGE: ${message.content}`);
-  const cleanMessage = normalMessage.replace(/[^a-z0-9 ]/g, '').slice(GLOBAL_PREFIX.length);
-  logger.info(`CLEAN MESSAGE: ${cleanMessage}`);
-
-  // split input text into arguments and capture the first as potential command
-  const args = cleanMessage.trim().split(/ +/g);
-  const command = args[0].toLowerCase();
-
-  // test potential command against command list
-  const isCommand = Object.keys(commands).includes(command);
-  // keep track of whether or not a response was sent
+  const action = transformMessage(message);
   let actionComplete = false;
 
-  if (isCommand) {
-    args.shift();
-    actionComplete = await doCommand(command, args, message);
-  } else {
-    actionComplete = await doPhrase(args, message);
+  if (action.isCommand) {
+    actionComplete = await doCommand(action.command, action.args, message);
+  } else if (action.isPhrase) {
+    actionComplete = await doPhrase(action.args, message);
   }
 
-  // nothing resolved so we error poorly
-  if (!actionComplete) {
-    message.channel.send(neutralThought());
+  if (!action.behave || (!actionComplete && action.isPhrase)) {
+    message.channel.send(respondEmotionally(action));
   }
 });
 
