@@ -23,7 +23,7 @@ const dogPhrases = async (args, message) => {
     }
   } else if (args.includes('dog') || args.includes('dogs') || args.includes('doggo')) {
     const rand = Math.floor(Math.random() * Math.floor(supportedDogs.length));
-    const breed = supportedDogs[rand]
+    const breed = supportedDogs[rand];
 
     try {
       const dog = await axios.get(`https://dog.ceo/api/breed/${breed}/images/random`);
