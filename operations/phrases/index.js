@@ -35,6 +35,7 @@ const doPhrase = async (args, message) => {
       return true;
     } catch (error) {
       message.channel.send(`Oh noes, teh kitty finder is acting up... ${error.message}.`);
+      return true;
     }
   }
 
