@@ -1,7 +1,7 @@
 const moment = require('moment-timezone');
+const axios = require('axios');
 const logger = require('../../util/logger');
 const dogPhrases = require('./dogs');
-const axios = require('axios');
 
 const doPhrase = async (args, message) => {
   logger.info(`DO PHRASE: ARGS: ${JSON.stringify(args)}`);
@@ -30,7 +30,7 @@ const doPhrase = async (args, message) => {
 
   if (args.includes('cat') || args.includes('cats') || args.includes('catto')) {
     try {
-      const cat = await axios.get(`http://aws.random.cat/meow`);
+      const cat = await axios.get('http://aws.random.cat/meow');
       message.channel.send({ files: [cat.data.file] });
       return true;
     } catch (error) {
