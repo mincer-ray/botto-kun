@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
 
+// emoji lib
+const emoji = require('node-emoji');
+
 // logger
 const logger = require('./util/logger');
 
@@ -48,6 +51,20 @@ client.on('message', async (message) => {
 
   if (!action.behave || (!actionComplete && action.isPhrase)) {
     message.channel.send(respondEmotionally(action));
+  } else {
+    // at the end theres a 10% chance to react to the message
+    const doReact = Math.floor(Math.random() * Math.floor(100)) > 10;
+    if (doReact) {
+      const reactEmojis = [];
+      action.args.forEach((word) => {
+        const match = emoji.find(word);
+        if (match) { reactEmojis.push(match.emoji); }
+      });
+      reactEmojis.forEach((react) => {
+        // noop errors because idgaf
+        message.react(react).catch(() => {});
+      });
+    }
   }
 });
 
