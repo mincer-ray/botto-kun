@@ -53,7 +53,7 @@ client.on('message', async (message) => {
     message.channel.send(respondEmotionally(action));
   } else {
     // at the end theres a 10% chance to react to the message
-    const doReact = Math.floor(Math.random() * Math.floor(100)) > 10;
+    const doReact = Math.floor(Math.random() * Math.floor(100)) < 10;
     if (doReact) {
       const reactEmojis = [];
       action.args.forEach((word) => {
