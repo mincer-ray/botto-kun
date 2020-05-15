@@ -36,7 +36,7 @@ const transformMessage = (message) => {
   bkmf.cleanMessage = cleanMessage(lcMessage, isPhrase, isCommand);
 
   // chance to go rogue
-  bkmf.behave = Math.floor(Math.random() * Math.floor(100)) > 10;
+  bkmf.behave = Math.floor(Math.random() * Math.floor(100)) > 5;
 
   // grab reference to keywords list
   bkmf.allKeywords = ALL_KEYWORDS;
