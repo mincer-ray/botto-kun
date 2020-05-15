@@ -60,6 +60,7 @@ client.on('message', async (message) => {
         const match = emoji.find(word);
         if (match) { reactEmojis.push(match.emoji); }
       });
+      reactEmojis.push(emoji.random().emoji);
       reactEmojis.forEach((react) => {
         // noop errors because idgaf
         message.react(react).catch(() => {});
