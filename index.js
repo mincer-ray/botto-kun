@@ -52,15 +52,15 @@ client.on('message', async (message) => {
   if (!action.behave || (!actionComplete && action.isPhrase)) {
     message.channel.send(respondEmotionally(action));
   } else {
-    // at the end theres a 10% chance to react to the message
-    const doReact = Math.floor(Math.random() * Math.floor(100)) < 10;
+    // at the end theres a 5% chance to react to the message
+    const doReact = Math.floor(Math.random() * Math.floor(100)) < 5;
     if (doReact) {
       const reactEmojis = [];
       action.args.forEach((word) => {
         const match = emoji.find(word);
         if (match) { reactEmojis.push(match.emoji); }
       });
-      reactEmojis.push(emoji.random().emoji);
+      // reactEmojis.push(emoji.random().emoji);
       reactEmojis.forEach((react) => {
         // noop errors because idgaf
         message.react(react).catch(() => {});
