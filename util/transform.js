@@ -2,6 +2,7 @@ const _ = require('lodash');
 
 // util
 const generateKeywords = require('./keywords');
+const bannedWords = require('../brain/banned');
 
 const PHRASE_PREFIX = 'botto-kun';
 const COMMAND_PREFIX = '!';
@@ -43,7 +44,11 @@ const transformMessage = (message) => {
 
 
   // split input text into arguments and capture the first as potential command
-  bkmf.args = bkmf.cleanMessage.trim().split(/ +/g);
+  const rawArgs = bkmf.cleanMessage.trim().split(/ +/g);
+  const bannedRemoved = _.difference(rawArgs, bannedWords());
+  debugger
+  bkmf.args = bannedRemoved;
+
   if (bkmf.isCommand) { bkmf.command = bkmf.args.shift(); }
   if (bkmf.isPhrase || !bkmf.behave) {
     bkmf.keywords = _.intersection(bkmf.allKeywords, bkmf.args);
