@@ -46,7 +46,6 @@ const transformMessage = (message) => {
   // split input text into arguments and capture the first as potential command
   const rawArgs = bkmf.cleanMessage.trim().split(/ +/g);
   const bannedRemoved = _.difference(rawArgs, bannedWords());
-  debugger
   bkmf.args = bannedRemoved;
 
   if (bkmf.isCommand) { bkmf.command = bkmf.args.shift(); }
