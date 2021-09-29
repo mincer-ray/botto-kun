@@ -2,10 +2,10 @@
   "name": "bottokun",
   "version": "0.1.0",
   "description": "botto-kun bot repo for discord",
-  "main": "bot.js",
+  "main": "index.js",
   "scripts": {
-    "start": "BOT_ENV=PRODUCTION node bot.js",
-    "dev": "BOT_ENV=DEVELOPMENT nodemon --inspect bot.js",
+    "start": "BOT_ENV=PRODUCTION node index.js",
+    "dev": "BOT_ENV=DEVELOPMENT nodemon --inspect index.js",
     "lint": "npx eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
