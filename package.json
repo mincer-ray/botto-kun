@@ -9,6 +9,9 @@
     "lint": "npx eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "16.10.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
