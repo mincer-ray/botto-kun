@@ -4,8 +4,8 @@
   "description": "botto-kun bot repo for discord",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon --inspect index.js",
+    "start": "BOT_ENV=PRODUCTION node new.js",
+    "dev": "BOT_ENV=DEVELOPMENT nodemon --inspect new.js",
     "lint": "npx eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +17,8 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
+    "firebase": "^7.21.1",
+    "firebase-admin": "^9.2.0",
     "lodash": "^4.17.19",
     "moment": "^2.25.3",
     "moment-timezone": "^0.5.28",

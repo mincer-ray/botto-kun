@@ -1,7 +1,5 @@
-const sendMessage = require('../actions/sendMessage');
-
 const losepoint = {
-  do: (args, event, database) => {
+  do: (args, message, database) => {
     const user = args[0];
     database.ref(`${process.env.BOT_ENV}/points/${user}`)
       .once('value')
@@ -10,7 +8,7 @@ const losepoint = {
         if (!points) { points = 0; }
         const pointTotal = points - 1;
         database.ref(`${process.env.BOT_ENV}/points/${user}`).set(pointTotal);
-        sendMessage(event.channel, `${user} -1 for ${pointTotal} total`);
+        message.reply(`${user} -1 for ${pointTotal} total`);
       });
   },
   help: 'minus someone a point for being lame',
