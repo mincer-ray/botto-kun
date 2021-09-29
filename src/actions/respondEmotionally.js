@@ -32,7 +32,7 @@ const randomFeel = (emotion) => {
 const respondEmotionally = (message, client) => {
   const sentiment = new Sentiment();
   const botName = `<@!${client.user.id}>`;
-  const cleanMessage = message.content.replace(botName, '')
+  const cleanMessage = message.content.replace(botName, '');
   const result = sentiment.analyze(cleanMessage);
   let emotion = 'neutral';
 

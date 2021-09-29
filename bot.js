@@ -2,7 +2,6 @@ const fs = require('fs');
 
 // Do secrets for dev mode
 if (process.env.BOT_ENV === 'DEVELOPMENT') {
-  console.log('Loading secrets');
   // eslint-disable-next-line
   const auth = require('./auth.json');
   process.env.DB_URL = auth.db_url;
@@ -19,9 +18,10 @@ const { Client, Intents } = require('discord.js');
 const firebaseAdmin = require('firebase-admin');
 const handleMessage = require('./src/handlers/handleMessage');
 const logger = require('./src/util/logger');
+
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 
 // Init firebase service account
 const firebaseConfig = {
@@ -37,7 +37,7 @@ client.on('ready', () => {
   logger.info(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('messageCreate', async message => {
+client.on('messageCreate', async (message) => {
   // loop protection
   if (message.author.id === client.user.id) return;
   handleMessage(message, database, client);
