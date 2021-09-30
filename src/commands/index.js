@@ -5,6 +5,7 @@ const salute = require('./salute');
 const givepoint = require('./givepoint');
 const losepoint = require('./losepoint');
 const leaderboard = require('./leaderboard');
+const dogme = require('./dogme');
 
 module.exports = {
   get,
@@ -14,4 +15,5 @@ module.exports = {
   '++': givepoint,
   '--': losepoint,
   leaderboard,
+  dogme,
 };
