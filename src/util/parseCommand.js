@@ -11,11 +11,12 @@ const parseCommand = (message, client) => {
   let command = null;
   const { content } = message;
   const botName = `<@!${client.user.id}>`;
+  const botNameMobile = `<@${client.user.id}>`;
   const normalWhitespace = content.replace(String.fromCharCode(160), ' ');
   const args = normalWhitespace.split(' ');
   const [first, second] = args;
 
-  if (first === botName) {
+  if (first === botName || first === botNameMobile) {
     command = second;
   }
 
