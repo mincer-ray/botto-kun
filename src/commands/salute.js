@@ -1,6 +1,6 @@
 const salute = {
   do: (args, message) => {
-    message.send('o7');
+    message.reply('o7');
   },
   help: 'gives a salute',
 };
