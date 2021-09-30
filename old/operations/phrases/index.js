@@ -1,6 +1,6 @@
 const moment = require('moment-timezone');
+const axios = require('axios');
 const logger = require('../../util/logger');
-const { happyThought, sadThought } = require('../../brain/thoughts');
 const dogPhrases = require('./dogs');
 
 const doPhrase = async (args, message) => {
@@ -12,8 +12,8 @@ const doPhrase = async (args, message) => {
       0: 'Monday',
       1: 'Wednesday',
       2: 'Friday',
-      3: 'Saturday',
-      4: 'Saturday',
+      3: 'Saturday #1',
+      4: 'Saturday #2',
       5: 'Sunday',
     };
 
@@ -28,14 +28,15 @@ const doPhrase = async (args, message) => {
     message.channel.send('@RAMER', { files: ['https://i.imgur.com/4eaWTeX.jpeg'] });
   }
 
-  if (args.includes('good')) {
-    message.channel.send(happyThought());
-    return true;
-  }
-
-  if (args.includes('bad')) {
-    message.channel.send(sadThought());
-    return true;
+  if (args.includes('cat') || args.includes('cats') || args.includes('catto')) {
+    try {
+      const cat = await axios.get('http://aws.random.cat/meow');
+      message.channel.send({ files: [cat.data.file] });
+      return true;
+    } catch (error) {
+      message.channel.send(`Oh noes, teh kitty finder is acting up... ${error.message}.`);
+      return true;
+    }
   }
 
   const dog = await dogPhrases(args, message);

@@ -1,71 +1,46 @@
-const Discord = require('discord.js');
+const fs = require('fs');
 
-// configs
-const commands = require('./config/commands.json');
-
-// logger
-const logger = require('./util/logger');
-
-// operations
-const doCommand = require('./operations/commands');
-const doPhrase = require('./operations/phrases');
-
-// thoughts
-const { neutralThought } = require('./brain/thoughts');
-
-const client = new Discord.Client();
-const GLOBAL_PREFIX = 'botto-kun';
-let APP_TOKEN = null;
-
-try {
-  // eslint-disable-next-line global-require, import/no-unresolved
+// Do secrets for dev mode
+if (process.env.BOT_ENV === 'DEVELOPMENT') {
+  // eslint-disable-next-line
   const auth = require('./auth.json');
-  APP_TOKEN = auth.token;
-} catch (error) {
-  APP_TOKEN = process.env.APP_TOKEN;
+  process.env.DB_URL = auth.db_url;
+  process.env.GOOGLE = JSON.stringify(auth.google);
+  process.env.APP_TOKEN = auth.token;
 }
 
+// write json file for piiiicky google
+fs.writeFileSync('./service-account.json', process.env.GOOGLE);
+process.env.GOOGLE_APPLICATION_CREDENTIALS = './service-account.json';
+
+// require junk
+const { Client, Intents } = require('discord.js');
+const firebaseAdmin = require('firebase-admin');
+const handleMessage = require('./src/handlers/handleMessage');
+const logger = require('./src/util/logger');
+
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+
+// const port = process.env.PORT || 3000;
+
+// Init firebase service account
+const firebaseConfig = {
+  databaseURL: process.env.DB_URL,
+};
+firebaseAdmin.initializeApp(firebaseConfig);
+
+// DB test code
+const database = firebaseAdmin.database();
+database.ref(`${process.env.BOT_ENV}/ping`).set(new Date(Date.now()).toString());
+
 client.on('ready', () => {
-  const homeGuildID = '194112750845165569';
-  const homeGuild = client.guilds.cache.get(homeGuildID);
-
-  logger.info(`Botto-kun active on ${homeGuild.name}`);
-  client.user.setActivity('uwu');
+  logger.info(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', async (message) => {
-  // prevent infinite bot looping
-  if (message.author.bot) return;
-  // message must always begin with prefix
-  const normalMessage = message.content.toLowerCase();
-  if (normalMessage.indexOf(GLOBAL_PREFIX) !== 0) return;
-
-  // message is for botto-kun and not from enemy bot
-  // remove nasties from nice words
-  logger.info(`RAW MESSAGE: ${message.content}`);
-  const cleanMessage = normalMessage.replace(/[^a-z0-9 ]/g, '').slice(GLOBAL_PREFIX.length);
-  logger.info(`CLEAN MESSAGE: ${cleanMessage}`);
-
-  // split input text into arguments and capture the first as potential command
-  const args = cleanMessage.trim().split(/ +/g);
-  const command = args[0].toLowerCase();
-
-  // test potential command against command list
-  const isCommand = Object.keys(commands).includes(command);
-  // keep track of whether or not a response was sent
-  let actionComplete = false;
-
-  if (isCommand) {
-    args.shift();
-    actionComplete = await doCommand(command, args, message);
-  } else {
-    actionComplete = await doPhrase(args, message);
-  }
-
-  // nothing resolved so we error poorly
-  if (!actionComplete) {
-    message.channel.send(neutralThought());
-  }
+client.on('messageCreate', async (message) => {
+  // loop protection
+  if (message.author.id === client.user.id) return;
+  handleMessage(message, database, client);
 });
 
-client.login(APP_TOKEN);
+client.login(process.env.APP_TOKEN);
