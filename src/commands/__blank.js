@@ -1,7 +1,5 @@
-const sendMessage = require('../actions/sendMessage');
-
 const __blank = {
-  do: (args, event, database) => {
+  do: (args, message, database) => {
     // code goes here
   },
   help: 'blank command',
