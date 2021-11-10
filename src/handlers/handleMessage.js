@@ -27,7 +27,7 @@ const handleMessage = (message, database, client) => {
     }
   }
 
-  const actAFool = Math.floor(Math.random() * Math.floor(100)) < 5;
+  const actAFool = Math.floor(Math.random() * Math.floor(100)) < 1;
 
   if (actAFool) {
     respondEmotionally(message, client);
