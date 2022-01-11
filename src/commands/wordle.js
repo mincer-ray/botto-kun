@@ -13,7 +13,7 @@ const wordle = {
     const botMessage = wg.startGuessing();
     message.reply(botMessage.join('\n'));
   },
-  help: 'play word',
+  help: 'play wordle. syntax is \' wordle yourword guesses \'',
 };
 
 module.exports = wordle;
