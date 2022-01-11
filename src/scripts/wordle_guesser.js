@@ -45,6 +45,11 @@ class WordleGame {
     let won = false;
     const botMessage = [];
 
+    if (!this.dictionary || !this.dictionary.includes(this.secret)) {
+      botMessage.push('The secret is not in my dictionary');
+      return botMessage;
+    }
+
     while (guessCount < this.maxGuesses && !won) {
       botMessage.push(`${this.dictionary.length} words left to choose from`);
 
@@ -60,9 +65,6 @@ class WordleGame {
       if (this.answer.join('') === this.secret) {
         botMessage.push(`${guessCount}/${this.maxGuesses}: ${this.secret}`);
         won = true;
-      }
-      if (!this.dictionary) {
-        botMessage.push('The secret is not in my dictionary');
       }
     }
 
