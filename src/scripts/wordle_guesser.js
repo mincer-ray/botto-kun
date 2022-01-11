@@ -49,12 +49,14 @@ class WordleGame {
       botMessage.push(`${this.dictionary.length} words left to choose from`);
 
       const guess = this.guessWord();
-      this.checkGuess(guess);
-      this.updateWordList();
-      guessCount += 1;
+      if (guess) {
+        this.checkGuess(guess);
+        this.updateWordList();
+        guessCount += 1;
 
-      botMessage.push(`I guess ${guess}.`);
-      botMessage.push(this.answer.join(' '));
+        botMessage.push(`I guess ${guess}.`);
+        botMessage.push(this.answer.join(' '));
+      }
       if (this.answer.join('') === this.secret) {
         botMessage.push(`${guessCount}/${this.maxGuesses}: ${this.secret}`);
         won = true;
