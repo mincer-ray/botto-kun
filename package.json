@@ -7,6 +7,7 @@
     "start": "BOT_ENV=PRODUCTION node index.js",
     "dev": "BOT_ENV=DEVELOPMENT nodemon --inspect index.js",
     "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "pre-commit": [
