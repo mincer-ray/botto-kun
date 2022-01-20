@@ -2,3 +2,4 @@
 auth.json
 node_modules
 service-account.json
+yarn.lock

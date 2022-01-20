@@ -4,11 +4,12 @@ const removeFromList = (list, char) => list.filter((item) => item !== char);
 
 class WordleGame {
   constructor(dict, secret, maxGuesses = 100) {
-    this.dictionary = dict.map((word) => word.toUpperCase());
-    this.secret = secret.toUpperCase();
     this.answer = Array.from({ length: 5 }, () => '-');
-    this.possibleLetters = Array.from({ length: 5 }, () => ALPHA);
+    this.confirmedLetters = [];
+    this.dictionary = dict.map((word) => word.toUpperCase());
     this.maxGuesses = maxGuesses;
+    this.possibleLetters = Array.from({ length: 5 }, () => ALPHA);
+    this.secret = secret.toUpperCase();
   }
 
   guessWord() {
@@ -21,9 +22,11 @@ class WordleGame {
       if (guess[i] === this.secret[i]) {
         this.answer[i] = char;
         this.possibleLetters[i] = [char];
+        this.confirmedLetters.push(char);
       } else if (this.secret.includes(char)) {
         const removeLetter = removeFromList(this.possibleLetters[i], char);
         this.possibleLetters[i] = removeLetter;
+        this.confirmedLetters.push(char);
       } else {
         const newLetters = this.possibleLetters.map((list) => removeFromList(list, char));
         this.possibleLetters = newLetters;
@@ -37,7 +40,8 @@ class WordleGame {
   }
 
   isWordValid(word) {
-    return word.split('').every((char, i) => this.possibleLetters[i].includes(char));
+    return word.split('').every((char, i) => this.possibleLetters[i].includes(char))
+      && this.confirmedLetters.every((char) => word.includes(char));
   }
 
   startGuessing() {
@@ -54,6 +58,7 @@ class WordleGame {
       botMessage.push(`${this.dictionary.length} words left to choose from`);
 
       const guess = this.guessWord();
+
       if (guess) {
         this.checkGuess(guess);
         this.updateWordList();
@@ -62,6 +67,7 @@ class WordleGame {
         botMessage.push(`I guess ${guess}.`);
         botMessage.push(this.answer.join(' '));
       }
+
       if (this.answer.join('') === this.secret) {
         botMessage.push(`${guessCount}/${this.maxGuesses}: ${this.secret}`);
         won = true;
