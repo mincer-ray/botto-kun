@@ -4,11 +4,12 @@ const removeFromList = (list, char) => list.filter((item) => item !== char);
 
 class WordleGame {
   constructor(dict, secret, maxGuesses = 100) {
-    this.dictionary = dict.map((word) => word.toUpperCase());
-    this.secret = secret.toUpperCase();
     this.answer = Array.from({ length: 5 }, () => '-');
-    this.possibleLetters = Array.from({ length: 5 }, () => ALPHA);
+    this.confirmedLettersInSecret = [];
+    this.dictionary = dict.map((word) => word.toUpperCase());
     this.maxGuesses = maxGuesses;
+    this.possibleLettersAtPosition = Array.from({ length: 5 }, () => ALPHA);
+    this.secret = secret.toUpperCase();
   }
 
   guessWord() {
@@ -20,13 +21,15 @@ class WordleGame {
     guess.split('').forEach((char, i) => {
       if (guess[i] === this.secret[i]) {
         this.answer[i] = char;
-        this.possibleLetters[i] = [char];
+        this.possibleLettersAtPosition[i] = [char];
+        this.confirmedLettersInSecret.push(char);
       } else if (this.secret.includes(char)) {
-        const removeLetter = removeFromList(this.possibleLetters[i], char);
-        this.possibleLetters[i] = removeLetter;
+        const removeLetterAtPosition = removeFromList(this.possibleLettersAtPosition[i], char);
+        this.possibleLettersAtPosition[i] = removeLetterAtPosition;
+        this.confirmedLettersInSecret.push(char);
       } else {
-        const newLetters = this.possibleLetters.map((list) => removeFromList(list, char));
-        this.possibleLetters = newLetters;
+        const newLetters = this.possibleLettersAtPosition.map((list) => removeFromList(list, char));
+        this.possibleLettersAtPosition = newLetters;
       }
     });
   }
@@ -37,7 +40,12 @@ class WordleGame {
   }
 
   isWordValid(word) {
-    return word.split('').every((char, i) => this.possibleLetters[i].includes(char));
+    const hasConfirmedLetters = this.confirmedLettersInSecret.every((char) => word.includes(char));
+
+    const isValidByPosition = word.split('')
+      .every((char, i) => this.possibleLettersAtPosition[i].includes(char));
+
+    return hasConfirmedLetters && isValidByPosition;
   }
 
   startGuessing() {
@@ -54,6 +62,7 @@ class WordleGame {
       botMessage.push(`${this.dictionary.length} words left to choose from`);
 
       const guess = this.guessWord();
+
       if (guess) {
         this.checkGuess(guess);
         this.updateWordList();
@@ -62,6 +71,7 @@ class WordleGame {
         botMessage.push(`I guess ${guess}.`);
         botMessage.push(this.answer.join(' '));
       }
+
       if (this.answer.join('') === this.secret) {
         botMessage.push(`${guessCount}/${this.maxGuesses}: ${this.secret}`);
         won = true;
