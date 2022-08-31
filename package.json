@@ -25,7 +25,7 @@
     "firebase-admin": "^9.2.0",
     "lodash": "^4.17.19",
     "moment": "^2.25.3",
-    "moment-timezone": "^0.5.28",
+    "moment-timezone": "^0.5.35",
     "nodemon": "^2.0.3",
     "sentiment": "^5.0.2",
     "winston": "^3.3.3"
